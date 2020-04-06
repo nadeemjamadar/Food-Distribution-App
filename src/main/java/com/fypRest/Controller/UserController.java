@@ -1,6 +1,5 @@
 package com.fypRest.Controller;
 
-import com.EmailSender.EmailSender;
 import com.EmailSender.dto.MailRequest;
 import com.EmailSender.dto.MailResponse;
 import com.EmailSender.service.EmailService;
@@ -37,7 +36,6 @@ public class UserController
     public String newUser(@RequestBody User theUser)
     {
         userService.save(theUser);
-        EmailSender emailSender = new EmailSender();
         MailRequest request = new MailRequest("Charity App", theUser.getEmail(), "charity.application501@gmail.com","Confirmation Email");
         Map<String, Object> model = new HashMap<>();
         model.put("Name", request.getName());
