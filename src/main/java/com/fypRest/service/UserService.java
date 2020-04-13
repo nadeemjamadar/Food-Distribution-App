@@ -36,8 +36,9 @@ public class UserService
         userRepository.deleteById(userId);
     }
 
-//    public Page<User> getAllUsers()
-//    {
-//        return userRepository.findAll(PageRequest.of(page.orElse(0) , 5 ));
-//    }
+    public User getById(int userId)
+    {
+        User user = userRepository.getOne(userId);
+        return user;
+    }
 }
