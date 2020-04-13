@@ -10,13 +10,14 @@ import com.fypRest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
 
 @RestController
+@CrossOrigin(allowedHeaders = "*")
 @RequestMapping("/users")
 public class UserController
 {
@@ -33,6 +34,12 @@ public class UserController
         return userRepository.findAll(PageRequest.of(page.orElse(0) , 5 ));
     }
 
+    @GetMapping("/getUser/{userId}")
+    public Optional<User> getUsersById(@PathVariable int userId) throws ResourceNotFoundException
+    {
+        return userRepository.findById(userId);
+    }
+
     @PostMapping("/newUser")
     public String newUser(@RequestBody User theUser)
     {
@@ -45,8 +52,6 @@ public class UserController
         MailResponse response = service.sendEmail(request, model);
         return response.getMessage();
     }
-
-
 
     @PutMapping("/updateUser")
     public User updateUser(@RequestBody User theUser)

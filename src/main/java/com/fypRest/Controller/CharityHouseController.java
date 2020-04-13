@@ -1,21 +1,18 @@
 package com.fypRest.Controller;
 
 import com.fypRest.DAO.CharityHouseRepository;
-import com.fypRest.DAO.FoodRepository;
 import com.fypRest.enitity.CharityHouse;
-import com.fypRest.enitity.Food;
 import com.fypRest.service.CharityHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.*;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(allowedHeaders = "*")
 @RequestMapping("/charityHouses")
 public class CharityHouseController
 {
@@ -37,6 +34,12 @@ public class CharityHouseController
         System.out.println(theCharityHouse);
         charityHouseService.save(theCharityHouse);
         return theCharityHouse;
+    }
+
+    @GetMapping("/getCharityHouse/{charityHouseId}")
+    public Optional<CharityHouse> getUsersById(@PathVariable int charityHouseId) throws ResourceNotFoundException
+    {
+        return charityHouseRepository.findById(charityHouseId);
     }
 
     @PutMapping("/updateCharityHouse")
