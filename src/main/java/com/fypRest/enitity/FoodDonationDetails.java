@@ -3,7 +3,7 @@ package com.fypRest.enitity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="food_doation_details")
+@Table(name="food_donation_details")
 public class FoodDonationDetails
 {
     @javax.persistence.Id
@@ -17,11 +17,11 @@ public class FoodDonationDetails
     @Column(name="quantity_unit")
     private String quantityUnit;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "food_item_id")
     private FoodItem foodItem;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "donation_id")
     private Donation donation;
 

@@ -11,11 +11,11 @@ public class Review
     @Column(name = "id")
     private int id;
 
-    @Column(name = "star")
+    @Column(name = "stars")
     private int star;
 
     @Column(name="title")
-    private int title;
+    private String title;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "_donner_id")
@@ -29,7 +29,7 @@ public class Review
     {
     }
 
-    public Review(int star, int title, Donner donner, CharityHouse charityHouse)
+    public Review(int star, String title, Donner donner, CharityHouse charityHouse)
     {
         this.star = star;
         this.title = title;
@@ -57,12 +57,12 @@ public class Review
         this.star = star;
     }
 
-    public int getTitle()
+    public String getTitle()
     {
         return title;
     }
 
-    public void setTitle(int title)
+    public void setTitle(String title)
     {
         this.title = title;
     }

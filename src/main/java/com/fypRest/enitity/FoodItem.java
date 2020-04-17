@@ -1,5 +1,6 @@
 package com.fypRest.enitity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class FoodItem
     private String name;
 
     @Column(name="expiry_date")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date expiry_date;
 
     @Column(name="type")

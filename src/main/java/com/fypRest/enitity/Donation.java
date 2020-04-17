@@ -1,5 +1,7 @@
 package com.fypRest.enitity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,6 +15,7 @@ public class Donation
     private int id;
 
     @Column(name="date")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date date;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})

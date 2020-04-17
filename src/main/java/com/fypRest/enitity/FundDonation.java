@@ -1,5 +1,6 @@
 package com.fypRest.enitity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -18,15 +19,16 @@ public class FundDonation
     private int amount;
 
     @Column(name="currency")
-    private int currency;
+    private String currency;
 
     @Column(name="donner_card")
     private String donnerCard;
 
     @Column(name="card_expiry_date")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private String cardExpiryDate;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "_donation_id")
     private Donation donation;
 
@@ -34,7 +36,7 @@ public class FundDonation
     {
     }
 
-    public FundDonation(int amount, int currency, String donnerCard, String cardExpiryDate, Donation donation)
+    public FundDonation(int amount, String currency, String donnerCard, String cardExpiryDate, Donation donation)
     {
         this.amount = amount;
         this.currency = currency;
@@ -63,12 +65,12 @@ public class FundDonation
         this.amount = amount;
     }
 
-    public int getCurrency()
+    public String getCurrency()
     {
         return currency;
     }
 
-    public void setCurrency(int currency)
+    public void setCurrency(String currency)
     {
         this.currency = currency;
     }

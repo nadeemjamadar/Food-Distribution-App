@@ -17,8 +17,8 @@ public class Donner
     @Column(name = "contact")
     private String contact;
 
-    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "_user_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user")
     private User user;
 
     public Donner()

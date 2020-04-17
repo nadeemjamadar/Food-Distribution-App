@@ -17,15 +17,15 @@ public class Feedback
     @Column(name="subject")
     private String subject;
 
-    @Column(name="feed_message")
+    @Column(name="feedback_message")
     private String feedbackMessage;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "_donner_id")
+    @JoinColumn(name = "donners_id")
     private Donner donner;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "_charity_house_id")
+    @JoinColumn(name = "charity_id")
     private CharityHouse charityHouse;
 
     public Feedback()

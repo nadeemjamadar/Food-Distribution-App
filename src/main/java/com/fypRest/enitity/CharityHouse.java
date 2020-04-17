@@ -17,7 +17,7 @@ public class CharityHouse
     @Column(name = "email")
     private String email;
 
-    @Column(name = "no_of_members")
+    @Column(name = "no_of_dependents")
     private int no_of_dependents;
 
     @Column(name = "contact")
@@ -32,11 +32,11 @@ public class CharityHouse
     @Column(name = "account_no")
     private String account_no;
 
-    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
@@ -133,6 +133,26 @@ public class CharityHouse
     public void setAccount_no(String account_no)
     {
         this.account_no = account_no;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    public Address getAddress()
+    {
+        return address;
+    }
+
+    public void setAddress(Address address)
+    {
+        this.address = address;
     }
 
     @Override
