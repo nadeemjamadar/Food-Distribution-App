@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/foodDonationDetails")
 public class FoodDonationDetailsController
 {
@@ -31,7 +31,6 @@ public class FoodDonationDetailsController
     {
         System.out.println(theFoodDonationDetails);
         foodDonationDetailsService.save(theFoodDonationDetails);
-        System.out.println(theFoodDonationDetails);
         return theFoodDonationDetails;
     }
     @PutMapping("/updateFoodDonationDetails")
