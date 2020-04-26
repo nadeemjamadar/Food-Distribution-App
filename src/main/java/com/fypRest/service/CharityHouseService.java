@@ -25,11 +25,11 @@ public class CharityHouseService
         this.charityHouseRepository = charityHouseRepository;
     }
 
-    @GetMapping("/list")
-    public Page<CharityHouse> getAllCharityHouses(@RequestParam Optional<Integer> page)
-    {
-        return charityHouseRepository.findAll(PageRequest.of(page.orElse(0) , 5 ));
-    }
+//    @GetMapping("/list")
+//    public Page<CharityHouse> getAllCharityHouses(@RequestParam Optional<Integer> page)
+//    {
+//        return charityHouseRepository.findAll(PageRequest.of(page.orElse(0) , 5 ));
+//    }
 
     public void save(CharityHouse charityHouse)
     {

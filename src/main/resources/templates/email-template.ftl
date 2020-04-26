@@ -153,7 +153,7 @@
                                                 href=""><img border="0"
                                                                                                        vspace="0"
                                                                                                        hspace="0"
-                                                                                                       src="https://raw.githubusercontent.com/MuzammalHussain6313/Food-Distribution-App/master/assets/food.png"
+                                                                                                       src="https://raw.githubusercontent.com/MuzammalHussain6313/Food-Distribution-App/master/assets/foodItem.png"
                                                                                                        alt="Please enable images to view this content"
                                                                                                        title="Food Image"
                                                                                                        width="530"

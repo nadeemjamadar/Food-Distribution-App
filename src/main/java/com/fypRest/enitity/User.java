@@ -1,5 +1,7 @@
 package com.fypRest.enitity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,6 @@ public class User
     @Column(name="role")
     private String role;
     // private String image;
-
 
     public User()
     {
