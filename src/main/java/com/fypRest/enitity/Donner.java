@@ -18,7 +18,7 @@ public class Donner
     private String contact;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "_user_id")
     private User user;
 
     public Donner()
