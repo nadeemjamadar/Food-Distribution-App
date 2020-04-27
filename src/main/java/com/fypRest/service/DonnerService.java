@@ -25,12 +25,6 @@ public class DonnerService
 
     }
 
-    public List<Donner> getAllDonners()
-    {
-        List<Donner> donnerList = donnerRepository.findAll();
-        return donnerList;
-    }
-
     public void save(Donner donner)
     {
         donnerRepository.save(donner);
@@ -39,10 +33,10 @@ public class DonnerService
     public Donner findById(int id)
     {
         Donner newDonner =null;
-        Optional<Donner> patient = donnerRepository.findById(id);
-        if(patient.isPresent())
+        Optional<Donner> donner = donnerRepository.findById(id);
+        if(donner.isPresent())
         {
-            newDonner = patient.get();
+            newDonner = donner.get();
         }
         return newDonner;
     }
