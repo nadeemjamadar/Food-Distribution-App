@@ -71,7 +71,7 @@ public class UserController
         if(u == null){
             response.setEmailStatus(false);
             response.setLoginStatus(false);
-            response.setApplicationStatus(u.getApplicationStatus());
+            response.setApplicationStatus("disapproved");
             return response;
         }
         else {
