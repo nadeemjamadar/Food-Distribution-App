@@ -77,11 +77,9 @@ public class UserController
         else {
             if(user.getPassword().equals(u.getPassword()))
             {
-                Donner donner = donnerRepository.findByUser(u.getId());
                 response.setEmailStatus(true);
                 response.setLoginStatus(true);
                 response.setApplicationStatus(u.getApplicationStatus());
-                System.out.println("donner id" + donner.getId());
                 return response;
             }
             else{
@@ -139,7 +137,6 @@ class Response{
     private boolean emailStatus;
     private boolean loginStatus;
     private String applicationStatus;
-    private int userID;
 
     public Response()
     {
