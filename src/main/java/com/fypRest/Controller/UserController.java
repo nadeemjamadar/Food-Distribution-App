@@ -1,5 +1,6 @@
 package com.fypRest.Controller;
 
+import com.EmailSender.GetTemplateWithURL;
 import com.EmailSender.dto.MailRequest;
 import com.EmailSender.dto.MailResponse;
 import com.EmailSender.service.EmailService;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -44,7 +47,6 @@ public class UserController
     {
         return userRepository.findById(userId);
     }
-
     @PostMapping("/newUser")
     public User newUser(@RequestBody User theUser)
     {
@@ -55,6 +57,7 @@ public class UserController
         model.put("location", "Islamabad, Pakistan");
         MailResponse response = service.sendEmail(request, model);
         String responce =  response.getMessage();
+        System.out.println(responce);
         return theUser;
     }
 
@@ -68,6 +71,7 @@ public class UserController
         if(u == null){
             response.setEmailStatus(false);
             response.setLoginStatus(false);
+            response.setApplicationStatus(u.getApplicationStatus());
             return response;
         }
         else {
@@ -76,6 +80,7 @@ public class UserController
                 Donner donner = donnerRepository.findByUser(u.getId());
                 response.setEmailStatus(true);
                 response.setLoginStatus(true);
+                response.setApplicationStatus(u.getApplicationStatus());
                 System.out.println("donner id" + donner.getId());
                 response.setUserID(donner.getId());
                 System.out.println("response id" + response.getUserID());
@@ -85,9 +90,38 @@ public class UserController
             else{
                 response.setEmailStatus(true);
                 response.setLoginStatus(false);
+                response.setApplicationStatus(u.getApplicationStatus());
                 return response;
             }
         }
+    }
+
+    @GetMapping("/email/{email}")
+    public boolean checkEmailDuplication(@PathVariable("email") String email)
+    {
+        if(userRepository.findByEmail(email)!= null)
+            return false;
+        return true;
+    }
+
+    @PostMapping("/applicationStatus/{email}")
+    public void setApplicationStatus(@PathVariable("email") String email)
+    {
+        User user = userRepository.findByEmail(email);
+        if(user!= null)
+            {
+                user.setApplicationStatus("approved");
+                userRepository.save(user);
+            }
+    }
+
+    @GetMapping("/username/{username}")
+    public boolean checkUsernameDuplication(@PathVariable String username)
+    {
+        System.out.println(userRepository.findByUsername(username));
+        if(userRepository.findByUsername(username)!= null)
+            return false;
+        return true;
     }
 
     @PutMapping("/updateUser")
@@ -107,6 +141,7 @@ public class UserController
 class Response{
     private boolean emailStatus;
     private boolean loginStatus;
+    private String applicationStatus;
     private int userID;
 
     public Response()
@@ -138,6 +173,21 @@ class Response{
     public void setEmailStatus(boolean passwordStatus)
     {
         this.emailStatus = passwordStatus;
+    }
+
+    public boolean isEmailStatus()
+    {
+        return emailStatus;
+    }
+
+    public String getApplicationStatus()
+    {
+        return applicationStatus;
+    }
+
+    public void setApplicationStatus(String applicationStatus)
+    {
+        this.applicationStatus = applicationStatus;
     }
 
     public boolean isLoginStatus()
