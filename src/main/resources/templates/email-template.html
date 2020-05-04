@@ -1,5 +1,5 @@
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0;">
@@ -153,7 +153,7 @@
                                                 href=""><img border="0"
                                                                                                        vspace="0"
                                                                                                        hspace="0"
-                                                                                                       src="https://raw.githubusercontent.com/MuzammalHussain6313/Food-Distribution-App/master/assets/foodItem.png"
+                                                                                                       src="https://raw.githubusercontent.com/MuzammalHussain6313/Food-Distribution-App/master/assets/food.png"
                                                                                                        alt="Please enable images to view this content"
                                                                                                        title="Food Image"
                                                                                                        width="530"
@@ -191,7 +191,7 @@
                                         style="padding: 12px 24px; margin: 0; text-decoration: underline; border-collapse: collapse; border-spacing: 0; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px;"
                                         bgcolor="#0B5073"><a target="_blank" style="text-decoration: underline;
 					color: #FFFFFF; font-family: sans-serif; font-size: 17px; font-weight: 400; line-height: 120%;"
-                                                             href="">
+                                                             th:href="@{${mailURL}}">
                                             <b>Click Here</b>
                                         </a>
                                     </td>
