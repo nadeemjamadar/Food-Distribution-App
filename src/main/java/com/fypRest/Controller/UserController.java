@@ -82,9 +82,6 @@ public class UserController
                 response.setLoginStatus(true);
                 response.setApplicationStatus(u.getApplicationStatus());
                 System.out.println("donner id" + donner.getId());
-                response.setUserID(donner.getId());
-                System.out.println("response id" + response.getUserID());
-                System.out.println(donner);
                 return response;
             }
             else{
@@ -148,21 +145,10 @@ class Response{
     {
     }
 
-    public Response(boolean emailStatus, boolean loginStatus,int userID)
+    public Response(boolean emailStatus, boolean loginStatus)
     {
         this.emailStatus = emailStatus;
         this.loginStatus = loginStatus;
-        this.userID = userID;
-    }
-
-    public int getUserID()
-    {
-        return userID;
-    }
-
-    public void setUserID(int userID)
-    {
-        this.userID = userID;
     }
 
     public boolean getEmailStatus()
