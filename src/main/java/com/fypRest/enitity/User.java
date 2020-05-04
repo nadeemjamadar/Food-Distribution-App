@@ -30,6 +30,9 @@ public class User
     @Column(name="password")
     private String password;
 
+    @Column(name="application_status")
+    private String applicationStatus;
+
     @Column(name="role")
     private String role;
     // private String image;
@@ -116,6 +119,16 @@ public class User
     public void setRole(String role)
     {
         this.role = role;
+    }
+
+    public String getApplicationStatus()
+    {
+        return applicationStatus;
+    }
+
+    public void setApplicationStatus(String applicationStatus)
+    {
+        this.applicationStatus = applicationStatus;
     }
 
     @Override
