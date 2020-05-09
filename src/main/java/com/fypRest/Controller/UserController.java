@@ -4,8 +4,10 @@ import com.EmailSender.GetTemplateWithURL;
 import com.EmailSender.dto.MailRequest;
 import com.EmailSender.dto.MailResponse;
 import com.EmailSender.service.EmailService;
+import com.fypRest.DAO.CharityHouseRepository;
 import com.fypRest.DAO.DonnerRepository;
 import com.fypRest.DAO.UserRepository;
+import com.fypRest.enitity.CharityHouse;
 import com.fypRest.enitity.Donner;
 import com.fypRest.enitity.User;
 import com.fypRest.service.UserService;
@@ -36,6 +38,9 @@ public class UserController
     @Autowired
     private DonnerRepository donnerRepository;
 
+    @Autowired
+    private CharityHouseRepository charityHouseRepository;
+
     @GetMapping("/list")
     public Page<User> getUsers(@RequestParam Optional<Integer> page)
     {
@@ -47,16 +52,17 @@ public class UserController
     {
         return userRepository.findById(userId);
     }
+
     @PostMapping("/newUser")
     public User newUser(@RequestBody User theUser)
     {
         userService.save(theUser);
-        MailRequest request = new MailRequest("Charity App", theUser.getEmail(), "charity.application501@gmail.com","Confirmation Email");
+        MailRequest request = new MailRequest("Charity App", theUser.getEmail(), "charity.application501@gmail.com", "Confirmation Email");
         Map<String, Object> model = new HashMap<>();
         model.put("Name", request.getName());
         model.put("location", "Islamabad, Pakistan");
         MailResponse response = service.sendEmail(request, model);
-        String responce =  response.getMessage();
+        String responce = response.getMessage();
         System.out.println(responce);
         return theUser;
     }
@@ -68,35 +74,70 @@ public class UserController
         System.out.println("user get by email. " + u);
         System.out.println("User coming from request body. " + user);
         Response response = new Response();
-        if(u == null){
+        if (u == null)
+        {
             response.setEmailStatus(false);
             response.setLoginStatus(false);
             response.setApplicationStatus("disapproved");
             return response;
-        }
-        else {
-            if(user.getPassword().equals(u.getPassword()))
+        } else
+        {
+            if (user.getPassword().equals(u.getPassword()) && user.getRole().equals(u.getRole()))
             {
-                Donner donner = donnerRepository.findByUser(u.getId());
+                if (user.getRole().equals("donner"))
+                {
+                    Donner donner = donnerRepository.findByUser(u.getId());
+                    response.setDonner(donner);
+                    System.out.println("donner id" + donner.getId());
+                    response.setEmailStatus(true);
+                    response.setLoginStatus(true);
+                    response.setApplicationStatus(u.getApplicationStatus());
+                    response.setRole("donner");
+                    return response;
+                } else if (user.getRole().equals("charity house"))
+                {
+                    CharityHouse charityHouse = charityHouseRepository.findByUser(u.getId());
+                    response.setCharityHouse(charityHouse);
+                    System.out.println("charity house id" + charityHouse.getId());
+                    response.setEmailStatus(true);
+                    response.setLoginStatus(true);
+                    response.setApplicationStatus(u.getApplicationStatus());
+                    response.setRole("charity house");
+                    return response;
+                } else if (user.getRole().equals("admin"))
+                {
+                    response.setUser(u);
+                    System.out.println("admin user" + u);
+                    response.setEmailStatus(true);
+                    response.setLoginStatus(true);
+                    response.setApplicationStatus(u.getApplicationStatus());
+                    response.setRole("admin");
+                    return response;
+                }
+                return response;
+            } else if (user.getPassword().equals(u.getPassword()) && !(u.getRole().equals(user.getRole())))
+            {
                 response.setEmailStatus(true);
                 response.setLoginStatus(true);
+                response.setRole(null);
                 response.setApplicationStatus(u.getApplicationStatus());
-                System.out.println("donner id" + donner.getId());
                 return response;
-            }
-            else{
+            } else
+            {
                 response.setEmailStatus(true);
                 response.setLoginStatus(false);
+                response.setRole(null);
                 response.setApplicationStatus(u.getApplicationStatus());
                 return response;
             }
+            // return response;
         }
     }
 
     @GetMapping("/email/{email}")
     public boolean checkEmailDuplication(@PathVariable("email") String email)
     {
-        if(userRepository.findByEmail(email)!= null)
+        if (userRepository.findByEmail(email) != null)
             return false;
         return true;
     }
@@ -105,18 +146,18 @@ public class UserController
     public void setApplicationStatus(@PathVariable("email") String email)
     {
         User user = userRepository.findByEmail(email);
-        if(user!= null)
-            {
-                user.setApplicationStatus("approved");
-                userRepository.save(user);
-            }
+        if (user != null)
+        {
+            user.setApplicationStatus("approved");
+            userRepository.save(user);
+        }
     }
 
     @GetMapping("/username/{username}")
     public boolean checkUsernameDuplication(@PathVariable String username)
     {
         System.out.println(userRepository.findByUsername(username));
-        if(userRepository.findByUsername(username)!= null)
+        if (userRepository.findByUsername(username) != null)
             return false;
         return true;
     }
@@ -135,11 +176,56 @@ public class UserController
         return "User id - " + userId + " is deleted.";
     }
 }
-class Response{
+
+class Response
+{
     private boolean emailStatus;
     private boolean loginStatus;
     private String applicationStatus;
-    private int userID;
+    private User user;
+    private CharityHouse charityHouse;
+    private Donner donner;
+    private String role;
+
+    public CharityHouse getCharityHouse()
+    {
+        return charityHouse;
+    }
+
+    public void setCharityHouse(CharityHouse charityHouse)
+    {
+        this.charityHouse = charityHouse;
+    }
+
+    public String getRole()
+    {
+        return role;
+    }
+
+    public void setRole(String role)
+    {
+        this.role = role;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    public Donner getDonner()
+    {
+        return donner;
+    }
+
+    public void setDonner(Donner donner)
+    {
+        this.donner = donner;
+    }
 
     public Response()
     {
