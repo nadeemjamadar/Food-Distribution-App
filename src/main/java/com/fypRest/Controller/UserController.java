@@ -21,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
-
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/users")
@@ -132,6 +131,21 @@ public class UserController
             }
             // return response;
         }
+    }
+
+    @PostMapping("/updatePassword")
+    public User updatePassword(@RequestBody User theUser)
+    {
+        System.out.println("the user" + theUser);
+        User user = userRepository.findByEmail(theUser.getEmail());
+        System.out.println("user" + user);
+        if (user != null)
+        {
+            System.out.println("password " + theUser.getPassword());
+            user.setPassword(theUser.getPassword());
+            userService.save(user);
+        }
+        return user;
     }
 
     @GetMapping("/email/{email}")
