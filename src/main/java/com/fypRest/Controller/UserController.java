@@ -156,15 +156,18 @@ public class UserController
         return true;
     }
 
-    @PostMapping("/applicationStatus/{email}")
-    public void setApplicationStatus(@PathVariable("email") String email)
+    @GetMapping("/applicationStatus/{email}")
+    public boolean setApplicationStatus(@PathVariable("email") String email)
     {
+        boolean status = false;
         User user = userRepository.findByEmail(email);
         if (user != null)
         {
+            status = true;
             user.setApplicationStatus("approved");
             userRepository.save(user);
         }
+        return status;
     }
 
     @GetMapping("/username/{username}")
