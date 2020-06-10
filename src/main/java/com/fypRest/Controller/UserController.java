@@ -152,9 +152,11 @@ public class UserController
     @GetMapping("/applicationStatus/{email}")
     public String setApplicationStatus(@PathVariable("email") String email)
     {
+        boolean status = false;
         User user = userRepository.findByEmail(email);
         if (user != null)
         {
+            status = true;
             user.setApplicationStatus("approved");
             userRepository.save(user);
             return "Application status approved.";
