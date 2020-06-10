@@ -32,10 +32,11 @@ public class DonnerController
 
     @Autowired
     UserRepository userRepository;
+
     @GetMapping("/list")
     public Page<Donner> getDonners(@RequestParam Optional<Integer> page)
     {
-        return donnerRepository.findAll(PageRequest.of(page.orElse(0) , 5 ));
+        return donnerRepository.findAll(PageRequest.of(page.orElse(0), 5));
     }
 
     @PostMapping("/newDonner")
@@ -49,7 +50,7 @@ public class DonnerController
         model.put("Name", request.getName());
         model.put("location", "Islamabad, Pakistan");
         MailResponse response = service.sendEmail(request, model);
-        String responce =  response.getMessage();
+        String responce = response.getMessage();
         System.out.println(responce);
         donnerService.save(theDonner);
         System.out.println(theDonner);
@@ -64,10 +65,17 @@ public class DonnerController
         System.out.println(theDonner);
         return theDonner;
     }
+
     @DeleteMapping("/deleteDonner/{donnerId}")
     public String deleteDonner(@PathVariable int donnerId)
     {
         donnerService.deleteById(donnerId);
         return "Donner id - " + donnerId + " is deleted.";
+    }
+
+    @GetMapping("findById/{id}")
+    public Donner findByID(@PathVariable int id)
+    {
+        return donnerService.findById(id);
     }
 }

@@ -81,9 +81,9 @@ public class UserController
             return response;
         } else
         {
-            if (user.getPassword().equals(u.getPassword()) && user.getRole().equals(u.getRole()))
+            if (user.getPassword().equals(u.getPassword()))
             {
-                if (user.getRole().equals("donner"))
+                if (u.getRole().equals("donner"))
                 {
                     Donner donner = donnerRepository.findByUser(u.getId());
                     response.setDonner(donner);
@@ -93,7 +93,7 @@ public class UserController
                     response.setApplicationStatus(u.getApplicationStatus());
                     response.setRole("donner");
                     return response;
-                } else if (user.getRole().equals("charity house"))
+                } else if (u.getRole().equals("charity house"))
                 {
                     CharityHouse charityHouse = charityHouseRepository.findByUser(u.getId());
                     response.setCharityHouse(charityHouse);
@@ -103,7 +103,7 @@ public class UserController
                     response.setApplicationStatus(u.getApplicationStatus());
                     response.setRole("charity house");
                     return response;
-                } else if (user.getRole().equals("admin"))
+                } else if (u.getRole().equals("admin"))
                 {
                     response.setUser(u);
                     System.out.println("admin user" + u);
@@ -114,19 +114,12 @@ public class UserController
                     return response;
                 }
                 return response;
-            } else if (user.getPassword().equals(u.getPassword()) && !(u.getRole().equals(user.getRole())))
-            {
-                response.setEmailStatus(true);
-                response.setLoginStatus(true);
-                response.setRole(null);
-                response.setApplicationStatus(u.getApplicationStatus());
-                return response;
             } else
             {
                 response.setEmailStatus(true);
                 response.setLoginStatus(false);
                 response.setRole(null);
-                response.setApplicationStatus(u.getApplicationStatus());
+                response.setApplicationStatus(null);
                 return response;
             }
             // return response;
@@ -156,15 +149,17 @@ public class UserController
         return true;
     }
 
-    @PostMapping("/applicationStatus/{email}")
-    public void setApplicationStatus(@PathVariable("email") String email)
+    @GetMapping("/applicationStatus/{email}")
+    public String setApplicationStatus(@PathVariable("email") String email)
     {
         User user = userRepository.findByEmail(email);
         if (user != null)
         {
             user.setApplicationStatus("approved");
             userRepository.save(user);
+            return "Application status approved.";
         }
+        return "Application status not approved.";
     }
 
     @GetMapping("/username/{username}")
