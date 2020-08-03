@@ -5,9 +5,11 @@ import com.fypRest.enitity.Review;
 import com.fypRest.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -47,5 +49,13 @@ public class ReviewController
     {
         reviewService.deleteById(reviewId);
         return "Review id - " + reviewId + " is deleted.";
+    }
+
+    @GetMapping("/findByDonner/{id}")
+    public Page<Review> getReports(@PathVariable int id)
+    {
+        List<Review> p =  reviewRepository.findByDonner(id);
+        Page<Review> page = new PageImpl<>(p);
+        return page;
     }
 }

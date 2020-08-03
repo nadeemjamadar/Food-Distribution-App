@@ -5,9 +5,11 @@ import com.fypRest.enitity.Feedback;
 import com.fypRest.service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -47,5 +49,13 @@ public class FeedbackController
     {
         feedbackService.deleteById(feedbackId);
         return "Feedback id - " + feedbackId + " is deleted.";
+    }
+
+    @GetMapping("/findByDonner/{id}")
+    public Page<Feedback> getReports(@PathVariable int id)
+    {
+        List<Feedback> p =  feedbackRepository.findByDonner(id);
+        Page<Feedback> page = new PageImpl<>(p);
+        return page;
     }
 }

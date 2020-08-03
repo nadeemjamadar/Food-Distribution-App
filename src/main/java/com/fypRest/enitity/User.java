@@ -35,7 +35,9 @@ public class User
 
     @Column(name="role")
     private String role;
-    // private String image;
+
+    @Column(name = "image", length = 1000)
+    private Byte[] image;
 
     public User()
     {
@@ -129,6 +131,16 @@ public class User
     public void setApplicationStatus(String applicationStatus)
     {
         this.applicationStatus = applicationStatus;
+    }
+
+    public Byte[] getImage()
+    {
+        return image;
+    }
+
+    public void setImage(Byte[] image)
+    {
+        this.image = image;
     }
 
     @Override

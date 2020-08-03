@@ -1,6 +1,5 @@
 package com.fypRest.Controller;
 
-import com.EmailSender.GetTemplateWithURL;
 import com.EmailSender.dto.MailRequest;
 import com.EmailSender.dto.MailResponse;
 import com.EmailSender.service.EmailService;
@@ -11,18 +10,27 @@ import com.fypRest.enitity.CharityHouse;
 import com.fypRest.enitity.Donner;
 import com.fypRest.enitity.User;
 import com.fypRest.service.UserService;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.ui.Model;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*") //allowedHeaders = "*"
 @RequestMapping("/users")
 public class UserController
 {
@@ -40,6 +48,36 @@ public class UserController
     @Autowired
     private CharityHouseRepository charityHouseRepository;
 
+    @PostMapping("/uploadPicture")
+    public void uploadFile(@RequestParam("file") MultipartFile file) throws IOException
+    {
+        System.out.println("file: " + file.getOriginalFilename());
+        String path = System.getProperty("user.dir")+ "\\assets\\" + file.getOriginalFilename();
+        file.transferTo(new File(path));
+    }
+
+    @GetMapping(value = "/downloadPicture/{file}",
+            produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getImage(@PathVariable("file") String file) throws IOException {
+
+        System.out.println("file: " + file);
+        String path = System.getProperty("user.dir")+ "\\assets\\" + file;
+
+        System.out.println("path : " + path);
+
+        File file1 = new File(path);
+        BufferedImage image = ImageIO.read(file1);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", baos);
+        byte[] bytes = baos.toByteArray();
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(bytes);
+    }
+
     @GetMapping("/list")
     public Page<User> getUsers(@RequestParam Optional<Integer> page)
     {
@@ -52,6 +90,11 @@ public class UserController
         return userRepository.findById(userId);
     }
 
+    @PostMapping("/changePassword")
+    public User changePassword(@RequestBody User theUser){
+        userRepository.save(theUser);
+        return theUser;
+    }
     @PostMapping("/newUser")
     public User newUser(@RequestBody User theUser)
     {

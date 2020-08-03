@@ -8,6 +8,7 @@ import com.fypRest.DAO.UserRepository;
 import com.fypRest.enitity.Donner;
 import com.fypRest.enitity.User;
 import com.fypRest.service.DonnerService;
+import com.fypRest.service.StringService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +27,9 @@ public class DonnerController
     private EmailService service;
 
     @Autowired
+    StringService stringService;
+
+    @Autowired
     private DonnerService donnerService;
     @Autowired
     private DonnerRepository donnerRepository;
@@ -39,6 +43,10 @@ public class DonnerController
         return donnerRepository.findAll(PageRequest.of(page.orElse(0), 5));
     }
 
+    @RequestMapping()
+    public Donner getDonner(@PathVariable int id){
+        return donnerService.findById(id);
+    }
     @PostMapping("/newDonner")
     public Donner newDonner(@RequestBody Donner theDonner)
     {
@@ -77,5 +85,15 @@ public class DonnerController
     public Donner findByID(@PathVariable int id)
     {
         return donnerService.findById(id);
+    }
+
+    @GetMapping("/stringReverse/{s}")
+    public String reverseString(@PathVariable String s)
+    {
+        if(s==null){
+            return "Invalid input. You must enter a string containing something.";
+        } else{
+            return stringService.reverseString(s);
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.fypRest.enitity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="donner")
