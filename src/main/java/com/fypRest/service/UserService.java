@@ -41,4 +41,9 @@ public class UserService
         User user = userRepository.getOne(userId);
         return user;
     }
+
+    public User getUserByUsername(String username)
+    {
+        return userRepository.getUserByUserName(username);
+    }
 }

@@ -2,6 +2,7 @@ package com.fypRest.Controller;
 
 import com.fypRest.DAO.ChannelRepository;
 import com.fypRest.enitity.Channel;
+import com.fypRest.enitity.User;
 import com.fypRest.service.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,18 +24,14 @@ public class ChannelController
     @GetMapping("/list/{search}")
     public List<Channel> getAllChannels(@PathVariable String search)
     {
-        List<Channel> list = channelRepository.findAll();
-        if(list.size() == 0){
-            return null;
-        } else{
-            list = list.stream()
-                    .filter(c -> c.getName().contains(search))
-                    .collect(Collectors.toList());
-            System.out.println(list);
-        }
-        return list;
+        return service.getChannelList(search);
     }
 
+    @GetMapping("/conversation-user-list")
+    public List<User> getUserByConversation() {
+        List<User> users = service.getUserByConversation();
+        return users;
+    }
     @PostMapping("/exist-or-not/{name}")
     public String getChannels(@PathVariable String name){
         return service.saveIfDontExist(name);
