@@ -50,9 +50,9 @@ public class CharityHouseController
         Map<String, Object> model = new HashMap<>();
         model.put("Name", request.getName());
         model.put("location", "Islamabad, Pakistan");
-//        MailResponse response = service.sendEmail(request, model);
-//        String responce =  response.getMessage();
-//        System.out.println(responce);
+        MailResponse response = service.sendEmail(request, model);
+        String responce =  response.getMessage();
+        System.out.println(responce);
         return theCharityHouse;
     }
 
