@@ -34,12 +34,21 @@ public class EmailService {
 			// helper.addAttachment("logo.png", new ClassPathResource("logo.png"));
 			// Template t = config.getTemplate("template.html");
 			// String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
-			RestTemplate template = new RestTemplate();
-			String url = "https://food-distribution-app.herokuapp.com/getTemplate/" + request.getTo();
-			String result = template.getForObject(url, String.class);
-			System.out.println(result);
+
+
+//			RestTemplate template = new RestTemplate();
+//			String url = "https://food-distribution-app.herokuapp.com/getTemplate/" + request.getTo();
+//			String result = template.getForObject(url, String.class);
+
+			String text = "Welcome to Food Distribution Application\n" +
+					"Automated generated Email from system.\n" +
+					"Your Account is successfully created but not activated. Now you have to activate your account by clicking given link.\n" +
+					"https://food-distribution-app.herokuapp.com/users/applicationStatus/" + request.getTo();
+
+//			System.out.println(result);
+			System.out.println(text);
 			helper.setTo(request.getTo());
-			helper.setText(result, true);
+			helper.setText(text, true);
 			helper.setSubject(request.getSubject());
 			helper.setFrom(request.getFrom());
 			sender.send(message);
