@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(allowedHeaders = "*")
 public class EmailSender
 {
     @Autowired
