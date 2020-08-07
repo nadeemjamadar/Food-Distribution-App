@@ -26,6 +26,7 @@ public class EmailSender
         Map<String, Object> model = new HashMap<>();
         model.put("Name", request.getName());
         model.put("location", "Bangalore,India");
-        return service.sendEmail(request, model);
+//        return service.sendEmail(request, model);
+        return null;
     }
 }

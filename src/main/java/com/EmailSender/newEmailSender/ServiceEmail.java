@@ -17,7 +17,6 @@ public class ServiceEmail
         //authentication info
 //        final String username = "yourUsername@email.com";
 //        final String password = "password";
-
         short flage = 0;
         final String username = "charity.application501@gmail.com";
         final String password = "adeel501";
@@ -29,7 +28,6 @@ public class ServiceEmail
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
-
         Session session = Session.getInstance(properties, new javax.mail.Authenticator()
         {
             protected PasswordAuthentication getPasswordAuthentication()
@@ -47,14 +45,12 @@ public class ServiceEmail
 
             Multipart emailContent = new MimeMultipart();
             //Text body part
-
-            RestTemplate template = new RestTemplate();
-            String url = "http://localhost:8095/getTemplate/" + toEmail;
-            String result = template.getForObject(url, String.class);
-            System.out.println(result);
-
+            String text = "Welcome to Food Distribution Application\n" +
+                    "Automated generated Email from system.\n" +
+                    "Your Account is successfully created but not activated. Now you have to activate your account by clicking given link.\n" +
+                    "https://food-distribution-app.herokuapp.com/users/applicationStatus/" + toEmail;
             MimeBodyPart textBodyPart = new MimeBodyPart();
-            textBodyPart.setText(result);
+            textBodyPart.setText(text);
             //Attachment body part.
 //            MimeBodyPart pdfAttachment = new MimeBodyPart();
 //            pdfAttachment.attachFile("/home/parallels/Documents/docs/javamail.pdf");
@@ -64,7 +60,6 @@ public class ServiceEmail
 
             //Attach multipart to message
             msg.setContent(emailContent);
-
             Transport.send(msg);
             flage = 1;
         } catch (MessagingException e)
@@ -75,13 +70,5 @@ public class ServiceEmail
             return "Email sent";
         }
         return "Email error occured";
-    }
-
-    public String getmailBody(String mail){
-        String message = "Welcome to Food Distribution Application\n" +
-                "Automated generated Email from system.\n" +
-                "Your Account is successfully created but not activated. Now you have to activate your account by clicking given link.\n" +
-                "Click Here\n";
-        return message;
     }
 }
