@@ -48,36 +48,6 @@ public class UserController
     @Autowired
     private CharityHouseRepository charityHouseRepository;
 
-    @PostMapping("/uploadPicture")
-    public void uploadFile(@RequestParam("file") MultipartFile file) throws IOException
-    {
-        System.out.println("file: " + file.getOriginalFilename());
-        String path = System.getProperty("user.dir")+ "\\assets\\" + file.getOriginalFilename();
-        file.transferTo(new File(path));
-    }
-
-    @GetMapping(value = "/downloadPicture/{file}",
-            produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getImage(@PathVariable("file") String file) throws IOException {
-
-        System.out.println("file: " + file);
-        String path = System.getProperty("user.dir")+ "\\assets\\" + file;
-
-        System.out.println("path : " + path);
-
-        File file1 = new File(path);
-        BufferedImage image = ImageIO.read(file1);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, "jpg", baos);
-        byte[] bytes = baos.toByteArray();
-
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(bytes);
-    }
-
     @GetMapping("/list")
     public Page<User> getUsers(@RequestParam Optional<Integer> page)
     {
@@ -110,7 +80,7 @@ public class UserController
     }
 
     @PostMapping("/login")
-    public Response checkUsername(@RequestBody User user)
+    public Response loginUser(@RequestBody User user)
     {
         User u = userRepository.findByEmail(user.getEmail());
         System.out.println("user get by email. " + u);
