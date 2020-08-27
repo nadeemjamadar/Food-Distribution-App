@@ -103,5 +103,4 @@ public class UploadController {
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(bytes);
     }
-
 }
