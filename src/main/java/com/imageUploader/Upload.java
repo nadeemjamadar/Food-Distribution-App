@@ -29,6 +29,9 @@ public class Upload {
 
         String endpoint_url = "https://api.imagga.com/v2/tags";
         String url = endpoint_url + "?image_url=" + image_url;
+
+        System.out.println(image_url);
+        System.out.println(url);
         URL urlObject = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
 
