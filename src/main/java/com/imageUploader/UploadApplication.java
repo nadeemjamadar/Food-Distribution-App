@@ -5,12 +5,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootApplication
-public class UploadApplication {
+@Configuration
+class UploadBean {
 	@Value("${cloudinary.cloud_name}")
 	private String cloudName;
 
@@ -19,12 +20,6 @@ public class UploadApplication {
 
 	@Value("${cloudinary.api_secret}")
 	private String apiSecret;
-
-
-	public static void main(String[] args) {
-		SpringApplication.run(UploadApplication.class, args);
-	}
-
 	@Bean
 	public Cloudinary cloudinaryConfig() {
 		Cloudinary cloudinary = null;
