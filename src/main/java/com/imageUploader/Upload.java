@@ -22,6 +22,7 @@ public class Upload {
     @Autowired
     private CloudinaryService cloudinaryService;
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         String image_url = cloudinaryService.uploadFile(file);
