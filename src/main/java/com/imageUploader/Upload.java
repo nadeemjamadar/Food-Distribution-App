@@ -16,7 +16,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -27,7 +29,7 @@ public class Upload {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/upload")
-    public JSONObject uploadFile(@RequestParam("file") MultipartFile file) throws IOException, ParseException {
+    public List<Tag> uploadFile(@RequestParam("file") MultipartFile file) throws IOException, ParseException {
         String image_url = cloudinaryService.uploadFile(file);
 
         String credentialsToEncode = "acc_7fdb8d4160abe4e" + ":" + "33d152abb1b8ee9b95bec94b46fa8956";
@@ -55,7 +57,12 @@ public class Upload {
         System.out.println(jsonResponse);
         JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse(jsonResponse);
-        return json;
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag("food"));
+        tags.add(new Tag("wood"));
+        tags.add(new Tag("sood"));
+        tags.add(new Tag("dood"));
+        return tags;
     }
 
     @PostMapping("/testUpload")
