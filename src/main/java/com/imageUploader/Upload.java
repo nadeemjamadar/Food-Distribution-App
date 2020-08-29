@@ -1,8 +1,10 @@
 package com.imageUploader;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -57,11 +60,22 @@ public class Upload {
         System.out.println(jsonResponse);
         JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse(jsonResponse);
+        JSONObject result = (JSONObject)json.get("result");
+        JSONArray jsonTags = (JSONArray) result.get("tags");
+        Iterator itr = jsonTags.iterator();
         List<Tag> tags = new ArrayList<>();
-        tags.add(new Tag("food"));
-        tags.add(new Tag("wood"));
-        tags.add(new Tag("sood"));
-        tags.add(new Tag("dood"));
+        int i=0;
+        while (itr.hasNext()) {
+            Object slide = itr.next();
+            JSONObject jsonObject2 = (JSONObject) slide;
+            JSONObject info = (JSONObject) jsonObject2.get("tag");
+            String label = (String) info.get("en");
+            tags.add(new Tag(label));
+            i++;
+            if(i>=7){
+                break;
+            }
+        }
         return tags;
     }
 
@@ -72,12 +86,22 @@ public class Upload {
         System.out.println(jsonResponse);
         JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse(jsonResponse);
-//        return json;
+        JSONObject result = (JSONObject)json.get("result");
+        JSONArray jsonTags = (JSONArray) result.get("tags");
+        Iterator itr = jsonTags.iterator();
         List<Tag> tags = new ArrayList<>();
-        tags.add(new Tag("food"));
-        tags.add(new Tag("wood"));
-        tags.add(new Tag("sood"));
-        tags.add(new Tag("dood"));
+        int i=0;
+        while (itr.hasNext()) {
+            Object slide = itr.next();
+            JSONObject jsonObject2 = (JSONObject) slide;
+            JSONObject info = (JSONObject) jsonObject2.get("tag");
+            String label = (String) info.get("en");
+            tags.add(new Tag(label));
+            i++;
+            if(i>=7){
+                break;
+            }
+        }
         return tags;
     }
 
