@@ -48,7 +48,7 @@ public class ServiceEmail
             String text = "Welcome to Food Distribution Application\n" +
                     "Automated generated Email from system.\n" +
                     "Your Account is successfully created but not activated. Now you have to activate your account by clicking given link.\n" +
-                    "https://food-distribution-app.herokuapp.com/users/applicationStatus/" + toEmail;
+                    "https://food-distribution-app.herokuapp.com/";
             MimeBodyPart textBodyPart = new MimeBodyPart();
             textBodyPart.setText(text);
             //Attachment body part.
