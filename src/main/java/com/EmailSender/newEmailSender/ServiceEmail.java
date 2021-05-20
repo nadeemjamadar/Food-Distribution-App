@@ -18,9 +18,9 @@ public class ServiceEmail
 //        final String username = "yourUsername@email.com";
 //        final String password = "password";
         short flage = 0;
-        final String username = "charity.application501@gmail.com";
-        final String password = "adeel501";
-        String fromEmail = "charity.application501@gmail.com";
+        final String username = "nadeemjamadar39@gmail.com";
+        final String password = "oquurshnoxoftprt";
+        String fromEmail = "nadeemjamadar39@gmail.com";
 //        String toEmail = "muzammal.bsse3310@iiu.edu.pk";
 
         Properties properties = new Properties();
