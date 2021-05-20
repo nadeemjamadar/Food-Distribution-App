@@ -78,7 +78,7 @@ public class SendEmail
 //        }
 
         ServiceEmail serviceEmail = new ServiceEmail();
-        System.out.println(serviceEmail.sendEmail("muzammal.bsse3310@iiu.edu.pk"));
+        System.out.println(serviceEmail.sendEmail("nadeemjamadar39@gmail.com"));
 
     }
 
